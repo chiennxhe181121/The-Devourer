@@ -1,4 +1,4 @@
-# 🎵 Nguyễn Xuân Chiến - The Sorrows Devourer"🎵
+# 🎵 Nguyen Xuan Chien - The Sorrows Devourer"🎵
 
 "🎼 Những giai điệu buồn bã cũng sẽ hóa thành tình ca 🎼"
 
@@ -7,7 +7,7 @@ Welcome to my personal space where even the saddest tunes will eventually transf
 ## 🌟 About Me
 
 - 🎓 **Education**: Software Engineering (BIT_SE) student at **FPT University Hanoi**.
-- 🏙️ **Location**: Living in **Hanoi**, but from **Hưng Yên**.
+- 🏙️ **Location**: Living in **Hanoi**, but from **Hung Yen**.
 - 💡 **Philosophy**: "Even the saddest tunes will turn into love songs."
 - 📧 **Contact**: Feel free to follow or reach out to me on [Facebook] **chengx_295**.
 
@@ -25,9 +25,9 @@ Welcome to my personal space where even the saddest tunes will eventually transf
 - Actively working on software projects related to web and mobile development, focusing on best practices in software architecture and clean coding.
 - Preparing for internships with a focus on gaining real-world experience in software development through FPT's partnerships with major tech companies.
 
-
-## 🤝 Thank you for reading
+*My README was written with the help of ChatGPT =))*
 
 ---
 
-*My README was written with the help of ChatGPT =))*
+## ❤️ Thank You For Reading 
+
