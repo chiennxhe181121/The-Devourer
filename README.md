@@ -1,4 +1,4 @@
-# 🎵 Nguyen Xuan Chien - The Sorrows Devourer"🎵
+# 🎵 Nguyen Xuan Chien - The Sorrows Devourer 🎵
 
 "🎼 Những giai điệu buồn bã cũng sẽ hóa thành tình ca 🎼"
 
