@@ -9,18 +9,21 @@ public class Main {
     public static void main(String[] args) {
         // Get the size of the array from user input
         int arrSize = getInt("Enter your number of array: ", 0, Integer.MAX_VALUE);
-        
+
         // Get the target value to search for from user input
         int target = getInt("Enter search value: ", 1, Integer.MAX_VALUE);
-        
+
         // Generate a random array based on the size provided by the user
         int[] arr = generateRandomArray(arrSize, arrSize);
-        
+
         // Display the generated array
         displayArray(arr);
-        
-        // Search for the target value in the array using linear search
-        System.out.println("Found " + target + " at index: " + linearSearch(arr, target));
+        int index = linearSearch(arr, target);
+        if (index != -1) {
+            System.out.println("Found " + target + " at index: " + index);
+        } else {
+            System.out.println("Not found " + target + " in this array");
+        }
     }
 
     // Global scanner object to be used for input
@@ -29,11 +32,11 @@ public class Main {
     // Method to get an integer with a specific range (min, max)
     public static int getInt(String msg, int min, int max) {
         while (true) {
-            System.out.println(msg);
             try {
+                System.out.println(msg);
                 // Parse user input and trim whitespace
                 int result = Integer.parseInt(sc.nextLine().trim());
-                
+
                 // Check if result is within the specified range
                 if (result >= min && result <= max) {
                     return result;
@@ -51,12 +54,12 @@ public class Main {
     public static int[] generateRandomArray(int size, int maxRange) {
         int arr[] = new int[size];
         Random rd = new Random();
-        
+
         // Populate the array with random values from 1 to maxRange
         for (int i = 0; i < arr.length; i++) {
             arr[i] = rd.nextInt(maxRange) + 1;
         }
-        
+
         return arr;
     }
 
@@ -70,7 +73,7 @@ public class Main {
         // Loop through each element in the array
         for (int i = 0; i < arr.length; i++) {
             // If the target is found, return the index
-            if (target == arr[i]) {
+            if (arr[i] == target) {
                 return i;
             }
         }

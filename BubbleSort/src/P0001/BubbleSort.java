@@ -16,7 +16,7 @@ public class BubbleSort {
         }
         return arr;
     }
-
+    
     // This method sorts the array using Bubble Sort
     public static void sortByBubbleSort(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
