@@ -1,29 +1,28 @@
 package fibonacci_practice;
 
 import java.util.HashMap;
-import java.util.Scanner;
 
-/**
- *
- * @author ADMIN
- */
 public class Main {
+
+    private static HashMap<Integer, Integer> memo = new HashMap<>();
 
     public static void main(String[] args) {
         System.out.println("The 45 sequence fibonacci: ");
-        displayArray(45);
+        for (int i = 0; i < 45; i++) {
+            System.out.print(calculateFibinacci(i) + " ");
+        }
     }
 
-    public static int getFibonacci(int n) {
+    public static int calculateFibinacci(int n) {
         if (n <= 1) {
             return n;
         }
-        return getFibonacci(n - 1) + getFibonacci(n - 2);
-    }
-    
-    public static void displayArray(int n){
-        for (int i = 0; i < n; i++) {
-            System.out.print(getFibonacci(i) + " ");
+        if (memo.containsKey(n)) {
+            return memo.get(n);
+        } else {
+            int result = calculateFibinacci(n - 1) + calculateFibinacci(n - 2);
+            memo.put(n, result);
+            return result;
         }
     }
 }
