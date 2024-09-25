@@ -11,7 +11,7 @@ public class Main {
         int target = getInt("Enter search value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
         int[] arr = generateRandomArray(arrSize, arrSize);
         displayArray(arr);
-        int index = binarySearch(arr, target);
+        int index = binarySearchRecursion(arr, target, 0, arrSize - 1);
         if (index != -1) {
             System.out.println("Found " + target + " at index: " + index);
         } else {
@@ -51,16 +51,29 @@ public class Main {
         return arr;
     }
 
-    public static int binarySearch(int[] arr, int target) {
-        int left = 0, right = arr.length - 1, middle;
+    public static int binarySearch(int[] arr, int target, int left, int right) {
         while (left <= right) {
-            middle = (left + right) / 2;
+            int middle = (left + right) / 2;
             if (arr[middle] == target) {
                 return middle;
             } else if (arr[middle] < target) {
                 left = middle + 1;
             } else {
                 right = middle - 1;
+            }
+        }
+        return -1;
+    }
+
+    public static int binarySearchRecursion(int arr[], int target, int left, int right) {
+        if (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] == target) {
+                return mid;
+            } else if (arr[mid] > target) {
+                return binarySearch(arr, target, left, mid - 1);
+            } else {
+                return binarySearch(arr, target, mid + 1, right);
             }
         }
         return -1;
