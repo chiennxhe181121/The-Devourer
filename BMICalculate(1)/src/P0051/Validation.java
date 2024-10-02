@@ -1,3 +1,4 @@
+package P0051;
 
 import java.util.Scanner;
 
@@ -24,7 +25,7 @@ public class Validation {
     }
 
     // Method to get a double within a specific range (min, max)
-    public static double getDouble(String msg, double min, double max) {
+    public static double getDouble(String msg, double min, double max, String err) {
         while (true) {
             System.out.println(msg);
             try {
@@ -35,34 +36,21 @@ public class Validation {
                 }
                 System.err.println("Out of range, your number must be from: " + min + " to " + max);
             } catch (NumberFormatException ex) {
-                System.err.println("Wrong format, please input a real number");
+                System.err.println(err);
             }
         }
     }
 
-    // Method to get a non-empty string with a custom error message
-    public static String getString(String msg, String err) {
+    public static String getOperator(String msg, String err) {
         while (true) {
             System.out.println(msg);
-            String s = sc.nextLine().trim();
-            // Check if the string is not empty
-            if (!s.isEmpty()) {
-                return s;
+            String ope = sc.nextLine().trim();
+            if (!ope.isEmpty() && (ope.equals("+") || ope.equals("-") || ope.equals("*")
+                    || ope.equals("/") || ope.equals("^") || ope.equals("="))) {
+                return ope;
+            } else {
+                System.err.println(err);
             }
-            System.err.println(err);
-        }
-    }
-
-    // Method to get a string that matches a given regex pattern
-    public static String getStringRegex(String msg, String regex, String err) {
-        while (true) {
-            System.out.println(msg);
-            String s = sc.nextLine().trim();
-            // Check if the string is not empty and matches the regex
-            if (!s.isEmpty() && s.matches(regex)) {
-                return s;
-            }
-            System.err.println(err);
         }
     }
 }
