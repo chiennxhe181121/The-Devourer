@@ -8,7 +8,7 @@ public class Manager {
         System.out.println("1. Normal Calculator");
         System.out.println("2. BMI Calculator");
         System.out.println("3. Exit");
-        int choice = Validation.getInt("Please choice one option:", 1, 3); // Get user choice
+        int choice = Validation.getInt("Please choice one option: ", 1, 3); // Get user choice
         return choice; // Return the choice
     }
 
@@ -60,7 +60,6 @@ public class Manager {
             double num = Validation.getDouble("Enter number: ", Double.NEGATIVE_INFINITY,
                     Double.POSITIVE_INFINITY, "Wrong format. Please input a real number");
             normalCalculate(num, ope); // Perform calculation
-
             // Display the current result stored in memory
             System.out.println("Memory: " + memory);
         }
