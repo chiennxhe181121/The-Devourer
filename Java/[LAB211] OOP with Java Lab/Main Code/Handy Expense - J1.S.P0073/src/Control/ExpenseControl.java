@@ -6,93 +6,68 @@ import java.util.List;
 
 public class ExpenseControl {
 
-    private static List<Expense> expense = new ArrayList<>(); // List to store expenses
-    private static int id = 1; // Initialize the ID for new expenses
+    List<Expense> expenses = new ArrayList<>(); // List to store expenses
+    Validation valid = new Validation(); // Create a validation object
+    private int crId = 1; // Current ID for new expenses
 
-    // Method to add an expense to the list
-    public static void addExpenseToList() {
-        System.out.println("-------- Add an expense --------");
+    // Method to add an expense
+    public void addAnExpense() {
+        System.out.println("-------- Add an expense--------");
         while (true) {
-            // Get date, amount, and content from user
-            String date = Validation.getDate("Enter date: ");
-            double amount = Validation.getDouble("Enter Amount: ", Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-            String content = Validation.getString("Enter Content: ");
-            // Create a new expense and add it to the list
-            expense.add(new Expense(id++, date, amount, content));
-            // Ask user if they want to add another expense
-            String choice = Validation.getYOrN("Do you want to add another expense (Y/N): ");
+            String date = valid.getDate("Enter Date: "); // Get the expense date
+            double amount = valid.getDouble("Enter Amount: ", 0, Double.POSITIVE_INFINITY); // Get the expense amount
+            String content = valid.getString("Enter Content: "); // Get the expense content
+            expenses.add(new Expense(crId++, date, amount, content)); // Add new expense to the list
+            String choice = valid.getYesOrNo("Do you want to add more (Y/N): "); // Check if user wants to add more
             if (choice.equals("N")) {
-                System.out.println("*** Add successful ***");
-                break; // Exit the loop if user does not want to add more
+                break; // Exit the loop if the user does not want to add more
             }
         }
-        System.out.println("");
+        System.out.println("*** Add successful ***"); // Success message
     }
 
     // Method to display all expenses
-    public static void displayAllExpense() {
-        System.out.println("--------- Display all expenses ------------");
-        if (expense.isEmpty()) {
-            // Print error if there are no expenses
-            System.out.println("*** The expense table is empty. ***");
+    public void displayAllExpenses() {
+        System.out.println("---------Display all expenses------------");
+        if (expenses.isEmpty()) {
+            System.out.println("*** The expense list is empty ***"); // Message when the list is empty
         } else {
-            double total = 0; // Variable to calculate total expenses
-            System.out.println("ID       Date        Amount     Content");
-            // Iterate through expenses and display each one
-            for (Expense exp : expense) {
-                System.out.println(exp.toString());
-                total += exp.getNumber(); // Accumulate total
+            double total = 0; // Initialize total amount
+            System.out.printf("%-7s%-14s%-10s%s\n", "ID", "Date", "Amount", "Content"); // Print table header
+            for (Expense expense : expenses) {
+                System.out.println(expense.toString()); // Display each expense
+                total += expense.getAmount(); // Add to total amount
             }
-            // Print total expenses
-            System.out.printf("Total: %.2f", total);
+            System.out.printf("Total: %.2f\n", total); // Display total amount
         }
-        System.out.println("");
     }
 
     // Method to delete an expense
-    public static void deleteAnExpense() {
-        System.out.println("-------- Delete an expense --------");
-        while (true) {
-            // Check if the expense list is empty
-            if (expense.isEmpty()) {
-                System.out.print("*** No expenses to delete ***"); // Print error if no expenses left
-                break; // Exit the loop if no expenses
-            }
-            
-            // Get the ID of the expense to delete
-            int id = Validation.getInt("Enter ID: ", 1, Integer.MAX_VALUE);
-            boolean found = false; // Flag to track if expense is found
-
-            // Iterate through expenses to find the one to delete
-            for (int i = 0; i < expense.size(); i++) {
-                Expense exp = expense.get(i);
-                if (exp.getID() == id) {
-                    found = true; // Expense found
-                    expense.remove(i); // Remove the expense from the list
-                    System.out.println("Expense with ID " + id + " has been deleted.");
-
-                    // Update IDs of subsequent expenses
-                    for (int j = i; j < expense.size(); j++) {
-                        Expense updatedExpense = expense.get(j);
-                        updatedExpense.setID(updatedExpense.getID() - 1); // Decrement ID
+    public void deleteAnExpense() {
+        System.out.println("--------Delete an expense------");
+        boolean flag = false; // Flag to check if the expense is found
+        if (expenses.isEmpty()) {
+            System.out.println("*** The expense list is empty ***"); // Message when the list is empty
+        } else {
+            int deleteId = valid.getInt("Enter ID: ", 1, expenses.size()); // Get the ID to delete
+            for (int i = 0; i < expenses.size(); i++) {
+                // Check if the current expense ID matches the ID to delete
+                if (expenses.get(i).getId() == deleteId) {
+                    expenses.remove(i); // Remove the expense at index i
+                    flag = true; // Set flag to true as the expense is found and deleted
+                    System.out.println("*** Delete successful ***");
+                    // Update the IDs of subsequent expenses after deletion
+                    for (int j = i; j < expenses.size(); j++) {
+                        expenses.get(j).setId(j + 1); // Set new ID for the remaining expenses
                     }
-                    break; // Exit the loop after deleting
+                    crId = expenses.size() + 1; // Update the current ID for new expenses
+                    break; // Exit the loop after deletion
                 }
             }
-
-            if (!found) {
-                // Print error if the expense ID was not found
-                System.err.println("Cannot find the entered ID in the expense table.");
-            }
-
-            // Ask user if they want to delete another expense
-            String choice = Validation.getYOrN("Do you want to delete another expense (Y/N): ");
-            if (choice.equals("N")) {
-                System.out.println("*** Delete successful ***");
-                break; // Exit the loop if user does not want to delete more
+            // If no matching ID is found, display a message
+            if (!flag) {
+                System.out.println("*** Your ID is not exist in table ***");
             }
         }
-        System.out.println("");
     }
-
 }

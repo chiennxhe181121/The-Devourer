@@ -6,52 +6,46 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Validation {
-    
+
     // Global scanner object to be used for input
-    public static Scanner sc = new Scanner(System.in);
+    public Scanner sc = new Scanner(System.in);
 
     // Method to get an integer within a specific range (min, max)
-    public static int getInt(String msg, int min, int max) {
+    public int getInt(String msg, int min, int max) {
         while (true) {
             System.out.print(msg);
             try {
-                // Parse the input string as an integer
                 int result = Integer.parseInt(sc.nextLine().trim());
                 // Check if the result is within the given range
                 if (min <= result && result <= max) {
-                    return result; // Return the valid result
+                    return result; // Return the valid integer
                 }
-                // Print error if the number is out of range
-                System.err.println("Out of range, your number must be from: " + min + " to " + max);
+                System.err.println("Out of range, your number must be from " + min + " to " + max);
             } catch (NumberFormatException ex) {
-                // Print error if the input format is wrong
-                System.err.println("Wrong format, please input an integer");
+                System.err.println("Wrong format, please input an integer"); // Handle invalid format
             }
         }
     }
 
     // Method to get a double within a specific range (min, max)
-    public static double getDouble(String msg, double min, double max) {
+    public double getDouble(String msg, double min, double max) {
         while (true) {
             System.out.print(msg);
             try {
-                // Parse the input string as a double
                 double result = Double.parseDouble(sc.nextLine().trim());
                 // Check if the result is within the given range
                 if (min <= result && result <= max) {
-                    return result; // Return the valid result
+                    return result; // Return the valid double
                 }
-                // Print error if the number is out of range
-                System.err.println("Out of range, your number must be from: " + min + " to " + max);
+                System.err.println("Out of range, your number must be from " + min + " to " + max);
             } catch (NumberFormatException ex) {
-                // Print error if the input format is wrong
-                System.err.println("Wrong format, please input a real number");
+                System.err.println("Wrong format, please input a real number"); // Handle invalid format
             }
         }
     }
 
     // Method to get a non-empty string with a custom error message
-    public static String getString(String msg) {
+    public String getString(String msg) {
         while (true) {
             System.out.print(msg);
             String s = sc.nextLine().trim();
@@ -59,55 +53,47 @@ public class Validation {
             if (!s.isEmpty()) {
                 return s; // Return the valid string
             } else {
-                // Print error if the string is empty
-                System.err.println("String cannot be empty, please input again");
+                System.err.println("String cannot be empty"); // Handle empty string case
             }
         }
     }
 
-    // Method to get a date in the format dd-MMM-yyyy
-    public static String getDate(String msg) {
+    // Method to get a valid date in the format 'dd-MMM-yyyy'
+    public String getDate(String msg) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-        sdf.setLenient(false);  // Disable lenient mode to ensure strict date parsing
+        sdf.setLenient(false); // Ensure strict date parsing
         while (true) {
             System.out.print(msg);
-            String input = sc.nextLine().trim();
             try {
-                // Parse the input date string
-                Date date = sdf.parse(input);
-                Date currentDate = new Date();  // Get the current system date
-
-                // Check if the input date is in the future
-                if (date.after(currentDate)) {
-                    System.err.println("The date cannot be in the future. Please enter a valid date.");
+                Date date = sdf.parse(sc.nextLine());
+                Date currentDate = new Date();
+                // Check if the date is not in the future
+                if (currentDate.after(date)) {
+                    return sdf.format(date); // Return the valid date
                 } else {
-                    // If valid, return the formatted date string
-                    return sdf.format(date);
+                    System.err.println("The date cannot be in the future. Please try again");
                 }
             } catch (ParseException e) {
-                // If the input format is invalid, show an error and ask for input again
-                System.err.println("Invalid date format, please enter again (dd-MMM-yyyy). Example: 20-Oct-2024");
+                System.err.println("Invalid date format, please enter again 'dd-MMM-yyyy'"); // Handle parse exception
             }
         }
     }
 
-    // Method to get a 'Y' or 'N' input from the user
-    public static String getYOrN(String msg) {
+    // Method to get a Yes or No response
+    public String getYesOrNo(String msg) {
         while (true) {
             System.out.print(msg);
-            String result = sc.nextLine().trim().toUpperCase();
-            if (!result.isEmpty()) {
-                // Check for valid input ('Y' or 'N')
-                if (result.equals("Y") || result.equals("N")) {
-                    return result; // Return valid input
+            String s = sc.nextLine().trim().toUpperCase();
+            // Check if the string is not empty
+            if (!s.isEmpty()) {
+                if (s.equals("Y") || s.equals("N")) {
+                    return s; // Return 'Y' or 'N'
                 } else {
-                    // Display error for invalid input
-                    System.err.println("Please input Y or N");
+                    System.err.println("Please input 'Y' or 'N'"); // Handle invalid input
                 }
-            } else {
-                // Display error for empty input
-                System.err.println("String cannot be empty. Please input again");
             }
+            System.err.println("String cannot be empty"); // Handle empty string case
         }
     }
+
 }
