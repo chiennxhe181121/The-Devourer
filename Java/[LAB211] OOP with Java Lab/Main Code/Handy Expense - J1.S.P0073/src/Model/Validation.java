@@ -60,18 +60,19 @@ public class Validation {
 
     // Method to get a valid date in the format 'dd-MMM-yyyy'
     public String getDate(String msg) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         sdf.setLenient(false); // Ensure strict date parsing
         while (true) {
             System.out.print(msg);
             try {
                 Date date = sdf.parse(sc.nextLine());
                 Date currentDate = new Date();
-                // Check if the date is not in the future
-                if (currentDate.after(date)) {
+                Date minDate = sdf.parse("31-12-1989");
+                // Check range of date input
+                if (currentDate.after(date) && minDate.before(date)) {
                     return sdf.format(date); // Return the valid date
                 } else {
-                    System.err.println("The date cannot be in the future. Please try again");
+                    System.err.println("Out of range, your date must be from Mon Jan 1 00:00:00 ICT 1990 to " + currentDate);
                 }
             } catch (ParseException e) {
                 System.err.println("Invalid date format, please enter again 'dd-MMM-yyyy'"); // Handle parse exception
@@ -91,8 +92,9 @@ public class Validation {
                 } else {
                     System.err.println("Please input 'Y' or 'N'"); // Handle invalid input
                 }
+            } else {
+                System.err.println("String cannot be empty"); // Handle empty string case
             }
-            System.err.println("String cannot be empty"); // Handle empty string case
         }
     }
 

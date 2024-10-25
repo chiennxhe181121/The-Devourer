@@ -1,21 +1,21 @@
 package Model;
 
-/**
- *
- * @author ADMIN
- */
 public class TaskType {
-    private int id;
-    private String name;
 
+    private int id; // Unique identifier for the task type
+    private String name; // Name of the task type
+
+    // Default constructor
     public TaskType() {
     }
 
+    // Constructor with parameters
     public TaskType(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    // Getters and setters for task type properties
     public int getId() {
         return id;
     }
@@ -31,5 +31,4 @@ public class TaskType {
     public void setName(String name) {
         this.name = name;
     }
-    
 }

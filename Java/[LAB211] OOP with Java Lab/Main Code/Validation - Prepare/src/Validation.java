@@ -73,28 +73,42 @@ public class Validation {
         }
     }
 
-    // Method to get a date in the format dd-MMM-yyyy
-    public static String getDate(String msg) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-        sdf.setLenient(false); // Disable lenient mode to ensure strict date parsing
+    // Method to get a valid date in the format 'dd-MMM-yyyy'
+    public String getDate(String msg) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        sdf.setLenient(false); // Ensure strict date parsing
         while (true) {
             System.out.print(msg);
-            String input = sc.nextLine().trim();
             try {
-                // Parse the input date string
-                Date date = sdf.parse(input);
-                Date currentDate = new Date();  // Get the current system date
-
-                // Check if the input date is in the future
-                if (date.after(currentDate)) {
-                    System.err.println("The date cannot be in the future. Please enter a valid date.");
+                Date date = sdf.parse(sc.nextLine());
+                Date currentDate = new Date();
+                Date minDate = sdf.parse("31-12-1989");
+                // Check range of date input
+                if (currentDate.after(date) && minDate.before(date)) {
+                    return sdf.format(date); // Return the valid date
                 } else {
-                    // If valid, return the formatted date string
-                    return sdf.format(date);
+                    System.err.println("Out of range, your date must be from Mon Jan 1 00:00:00 ICT 1990 to " + currentDate);
                 }
             } catch (ParseException e) {
-                // If the input format is invalid, show an error and ask for input again
-                System.err.println("Invalid date format, please enter again (dd-MMM-yyyy). Example: 20-Oct-2024");
+                System.err.println("Invalid date format, please enter again 'dd-MMM-yyyy'"); // Handle parse exception
+            }
+        }
+    }
+    
+    // Method to get a Yes or No response
+    public String getYesOrNo(String msg) {
+        while (true) {
+            System.out.print(msg);
+            String s = sc.nextLine().trim().toUpperCase();
+            // Check if the string is not empty
+            if (!s.isEmpty()) {
+                if (s.equals("Y") || s.equals("N")) {
+                    return s; // Return 'Y' or 'N'
+                } else {
+                    System.err.println("Please input 'Y' or 'N'"); // Handle invalid input
+                }
+            } else {
+                System.err.println("String cannot be empty"); // Handle empty string case
             }
         }
     }

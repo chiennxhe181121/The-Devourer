@@ -1,33 +1,32 @@
 package Model;
 
-/**
- *
- * @author ADMIN
- */
 public class Task {
-    private int id;
-    private String requirementName;
-    private int taskType;
-    private String date;
-    private double planFrom;
-    private double planTo;
-    private String assignee;
-    private String reviewer;
+    private int id; // Task ID
+    private String requirementName; // Requirement name
+    private TaskType taskType; // Type of task
+    private String date; // Task date
+    private double planFrom; // Start time
+    private double planTo; // End time
+    private String assignee; // Person assigned to the task
+    private String reviewer; // Task reviewer
 
+    // Default constructor
     public Task() {
     }
 
-    public Task(int id, String requirementName, int taskType, String date, double planFrom, double planTo, String assignee, String reviewer) {
-        this.id = id;
-        this.requirementName = requirementName;
-        this.taskType = taskType;
-        this.date = date;
-        this.planFrom = planFrom;
-        this.planTo = planTo;
-        this.assignee = assignee;
-        this.reviewer = reviewer;
+    // Constructor with parameters
+    public Task(int id, String requirementName, TaskType taskType, String date, double planFrom, double planTo, String assignee, String reviewer) {
+        this.id = id; 
+        this.requirementName = requirementName; 
+        this.taskType = taskType; 
+        this.date = date; 
+        this.planFrom = planFrom; 
+        this.planTo = planTo; 
+        this.assignee = assignee; 
+        this.reviewer = reviewer; 
     }
 
+    // Getters and setters for task properties
     public int getId() {
         return id;
     }
@@ -44,11 +43,11 @@ public class Task {
         this.requirementName = requirementName;
     }
 
-    public int getTaskType() {
-        return taskType;
+    public TaskType getTaskType() {
+        return taskType; 
     }
 
-    public void setTaskType(int taskType) {
+    public void setTaskType(TaskType taskType) { 
         this.taskType = taskType;
     }
 
@@ -91,5 +90,4 @@ public class Task {
     public void setReviewer(String reviewer) {
         this.reviewer = reviewer;
     }
-    
 }
