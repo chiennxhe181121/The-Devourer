@@ -1,42 +1,37 @@
 package View;
 
-import Model.*;
-import Control.*;
+import Controller.TaskManager;
+import Model.Validation;
 
 public class Main {
 
     public static void main(String[] args) {
-        Validation valid = new Validation(); // Create a validation object
-        Manager ma = new Manager(); // Create a manager object to handle tasks
+        Validation val = new Validation(); // Create an instance of Validation class for input validation
+        TaskManager task = new TaskManager(); // Create an instance of TaskManager to manage tasks
         while (true) {
-            // Display the main menu
             System.out.println("========= Task program =========");
             System.out.println("1. Add Task");
             System.out.println("2. Delete Task");
             System.out.println("3. Display Task");
             System.out.println("4. Exit");
-
-            // Get user's choice
-            int choice = valid.getInt("Enter your choice: ", 1, 4);
+            int choice = val.getInt("Enter your choice: ", 1, 4); // Get user's menu choice
             System.out.println("");
-            
-            // Process user's choice
             switch (choice) {
                 case 1:
-                    ma.addTask(); // Add a new task
+                    task.addTask(); // Call method to add a task
                     System.out.println("");
                     break;
                 case 2:
-                    ma.deleteTask(); // Delete an existing task
+                    task.deleteTask(); // Call method to delete a task
                     System.out.println("");
                     break;
                 case 3:
-                    ma.displayTask(); // Display all tasks
+                    task.displayTask(); // Call method to display all tasks
                     System.out.println("");
                     break;
                 case 4:
-                    System.out.println("Exiting...");
-                    return; // Exit the program
+                    System.out.println("Exiting..."); // Exit the program
+                    return;
             }
         }
     }

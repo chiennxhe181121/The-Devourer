@@ -19,8 +19,9 @@ public class Validation {
                 // Check if the result is within the given range
                 if (min <= result && result <= max) {
                     return result; // Return the valid integer
+                } else {
+                    System.err.println("Out of range, your number must be from " + min + " to " + max);
                 }
-                System.err.println("Out of range, your number must be from " + min + " to " + max);
             } catch (NumberFormatException ex) {
                 System.err.println("Wrong format, please input an integer"); // Handle invalid format
             }
@@ -36,8 +37,9 @@ public class Validation {
                 // Check if the result is within the given range
                 if (min <= result && result <= max) {
                     return result; // Return the valid double
+                } else {
+                    System.err.println("Out of range, your number must be from " + min + " to " + max);
                 }
-                System.err.println("Out of range, your number must be from " + min + " to " + max);
             } catch (NumberFormatException ex) {
                 System.err.println("Wrong format, please input a real number"); // Handle invalid format
             }
