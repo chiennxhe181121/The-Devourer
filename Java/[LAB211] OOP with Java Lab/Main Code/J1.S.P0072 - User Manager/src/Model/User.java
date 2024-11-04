@@ -1,20 +1,15 @@
 package Model;
 
 public class User {
+    private String acc; // Account name
+    private String pass; // Password
+    private String name; // Full name
+    private String phone; // Phone number
+    private String email; // Email address
+    private String address; // Home address
+    private String dOB; // Date of birth
 
-    // User attributes to store account details
-    private String acc;
-    private String pass;
-    private String name;
-    private String phone;
-    private String email;
-    private String address;
-    private String dOB;
-
-    public User() {
-    }
-
-    // Constructor for creating a new user with all attributes
+    // Constructor to initialize User object
     public User(String acc, String pass, String name, String phone, String email, String address, String dOB) {
         this.acc = acc;
         this.pass = pass;
@@ -25,7 +20,7 @@ public class User {
         this.dOB = dOB;
     }
 
-    // Getters and setters for each attribute to allow access and modification
+    // Getter and setter methods for each field
     public String getAcc() {
         return acc;
     }
@@ -74,11 +69,12 @@ public class User {
         this.address = address;
     }
 
-    public String getdOB() {
+    public String getDOB() {
         return dOB;
     }
 
-    public void setdOB(String dOB) {
+    public void setDOB(String dOB) {
         this.dOB = dOB;
     }
+
 }

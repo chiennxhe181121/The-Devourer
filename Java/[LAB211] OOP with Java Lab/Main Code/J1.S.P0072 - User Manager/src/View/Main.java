@@ -1,7 +1,7 @@
 package View;
 
 import Control.UserManager;
-import Model.Validation;
+import Control.Validation;
 
 public class Main {
 

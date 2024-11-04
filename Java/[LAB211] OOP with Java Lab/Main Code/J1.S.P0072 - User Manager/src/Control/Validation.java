@@ -1,6 +1,8 @@
-package Model;
+package Control;
 
 import java.io.Console;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,12 +18,14 @@ public class Validation {
             System.out.print(msg);
             try {
                 int result = Integer.parseInt(sc.nextLine().trim());
+                // Check if the result is within the specified range
                 if (min <= result && result <= max) {
-                    return result;
+                    return result; // Return the valid input
                 } else {
                     System.err.println("Out of range, must be from " + min + " to " + max);
                 }
             } catch (NumberFormatException ex) {
+                // Handle the case when the input is not a valid integer
                 System.err.println("Invalid format, please enter an integer");
             }
         }
@@ -33,12 +37,14 @@ public class Validation {
             System.out.print(msg);
             try {
                 double result = Double.parseDouble(sc.nextLine().trim());
+                // Check if the result is within the specified range
                 if (min <= result && result <= max) {
-                    return result;
+                    return result; // Return the valid input
                 } else {
                     System.err.println("Out of range, must be from " + min + " to " + max);
                 }
             } catch (NumberFormatException ex) {
+                // Handle the case when the input is not a valid double
                 System.err.println("Invalid format, please enter a decimal number");
             }
         }
@@ -49,8 +55,9 @@ public class Validation {
         while (true) {
             System.out.print(msg);
             String s = sc.nextLine().trim();
+            // Check if the string is not empty
             if (!s.isEmpty()) {
-                return s;
+                return s; // Return the valid input
             } else {
                 System.err.println("Input cannot be empty");
             }
@@ -62,10 +69,11 @@ public class Validation {
         while (true) {
             System.out.print(msg);
             String s = sc.nextLine().trim();
+            // Validate the string against the regex pattern
             if (!s.isEmpty() && s.matches(regex)) {
-                return s;
+                return s; // Return the valid input
             } else {
-                System.err.println(err);
+                System.err.println(err); // Print the error message
             }
         }
     }
@@ -83,11 +91,12 @@ public class Validation {
 
                 // Check if the date is within the specified range
                 if (currentDate.after(date) && minDate.before(date)) {
-                    return sdf.format(date);
+                    return sdf.format(date); // Return the formatted date
                 } else {
                     System.err.println("Out of range. Must be from 31-12-1989 to today.");
                 }
             } catch (ParseException e) {
+                // Handle the case when the date format is invalid
                 System.err.println("Invalid date format. Please enter as dd-MM-yyyy");
             }
         }
@@ -98,12 +107,28 @@ public class Validation {
         while (true) {
             System.out.print(msg);
             String s = sc.nextLine().trim().toUpperCase();
+            // Validate the input to be either "Y" or "N"
             if (s.equals("Y") || s.equals("N")) {
-                return s;
+                return s; // Return the valid input
             } else {
                 System.err.println("Input must be Y/N");
             }
         }
     }
-    
+
+    // Method to hash a password using MD5
+    public String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] byteData = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : byteData) {
+                sb.append(String.format("%02x", b)); // Convert byte to hexadecimal format
+            }
+            return sb.toString(); // Return the hashed password
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e); // Handle the case when the hashing algorithm is not found
+        }
+    }
 }

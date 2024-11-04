@@ -1,7 +1,7 @@
 package View;
 
 import Controller.TaskManager;
-import Model.Validation;
+import Controller.Validation;
 
 public class Main {
 

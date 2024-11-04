@@ -19,44 +19,44 @@ public class UserManager {
         while (true) {
             String acc = "";
 
-            // If list is empty, no need to check for duplicate accounts
+            // Check if the list is empty for first account input
             if (list.isEmpty()) {
                 acc = val.getString("Account: ");
             } else {
-                boolean isUnique = false;
-
-                // Loop until a unique account name is provided
+                boolean isUnique = false; // Flag to ensure account uniqueness
                 while (!isUnique) {
-                    acc = val.getString("Account: ");
-
-                    // Check if the account already exists in the list
+                    acc = val.getStringRegex("Account: ", "^[a-zA-Z][a-zA-Z0-9._]{2,14}$", "Account must start with a letter and contain only letters, numbers, dots, or underscores, with a length of 3 to 15 characters.");
                     isUnique = true;
                     for (User user : list) {
+                        // Check for existing accounts
                         if (user.getAcc().equals(acc)) {
                             System.err.println("This account already exists, please enter another");
-                            isUnique = false;
+                            isUnique = false; // Set flag to false if account exists
                             break;
                         }
                     }
                 }
             }
 
-            // Gather user details, using validation methods for format checking
-            String pass = val.getString("Password: ");
+            // Get user password and hash it
+            String pass = val.getStringRegex("Password (8-31 characters): ", "^.{8,31}$", "Password must be between 8 and 31 characters.");
+            pass = val.hashPassword(pass); // Hash the password
+
+            // Get and validate other user details
             String name = val.getStringRegex("Name: ", "^[a-zA-Z\\s]+$", "Name must contain only letters and spaces");
             String phone = val.getStringRegex("Phone: ", "[0-9]{10,11}", "Phone number must be 10 or 11 digits");
             String email = val.getStringRegex("Email: ", "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$", "Email must be in format 'example@domain.com'");
-            String address = val.getStringRegex("Address: ", "^[a-zA-Z\\s]+$", "Address must contain only letters and spaces");
+            String address = val.getString("Address: ");
             String dOB = val.getDate("DOB: ");
 
-            // Create a new User object with provided details and add to list
+            // Create a new User object and add it to the list
             User us = new User(acc, pass, name, phone, email, address, dOB);
             list.add(us);
 
-            // Prompt to add another user or stop
+            // Ask if the user wants to add more users
             String choice = val.getYesOrNo("Do you want to add more (Y/N): ");
             if (choice.equals("N")) {
-                break;
+                break; // Exit the loop if user chooses not to add more
             }
         }
 
@@ -67,34 +67,34 @@ public class UserManager {
     public void loginAccount() {
         if (list.isEmpty()) {
             System.out.println("*** No account has been created yet ***");
-            return;
+            return; // Exit if no accounts exist
         }
 
         System.out.println("------------- Login ----------------");
         boolean loggedIn = false;
 
-        // Loop until a valid account/password is provided
         while (!loggedIn) {
+            // Get account credentials for login
             String acc = val.getString("Account: ");
             String pass = val.getString("Password: ");
+            pass = val.hashPassword(pass); // Hash the entered password
 
-            boolean found = false;
-
-            // Check if input account and password match any user in the list
+            boolean found = false; // Flag to check if account exists
             for (User user : list) {
+                // Validate account and password
                 if (user.getAcc().equals(acc) && user.getPass().equals(pass)) {
                     System.out.println("*** Login successful ***");
-                    loggedIn = true;
+                    loggedIn = true; // Set loggedIn flag to true
                     found = true;
 
-                    // Welcome message and option to change password
                     System.out.println("\n------------ Welcome -----------");
+                    // Ask if the user wants to change the password after logging in
                     String choice = val.getYesOrNo("Hi " + user.getName() + ", do you want to change password now? Y/N: ");
                     if (choice.equals("N")) {
                         System.out.println("");
-                        return;
+                        return; // Exit if the user does not want to change password
                     } else {
-                        changePassword(user);
+                        changePassword(user); // Call method to change password
                     }
                     break;
                 }
@@ -111,34 +111,25 @@ public class UserManager {
         boolean correctOldPass = false;
         String oldPass = "";
 
-        // Confirm the old password before allowing changes
+        // Prompt for the old password
         while (!correctOldPass) {
             oldPass = val.getString("Old password: ");
+            oldPass = val.hashPassword(oldPass); // Hash the old password for comparison
+            // Check if the entered old password matches
             if (oldPass.equals(user.getPass())) {
-                correctOldPass = true;
+                correctOldPass = true; // Set flag to true if old password is correct
             } else {
-                System.err.println("Old password is incorrect.");
+                System.out.println("Old password is incorrect. Please try again.");
             }
         }
 
-        boolean passwordChanged = false;
+        // Prompt for the new password
+        String newPass = val.getString("New password: ");
+        newPass = val.hashPassword(newPass); // Hash the new password
 
-        // Loop to ensure new password is different from the old password and matches the retyped password
-        while (!passwordChanged) {
-            String newPass = val.getString("New password: ");
-            if (newPass.equals(oldPass)) {
-                System.err.println("New password cannot be the same as the old password");
-                continue;
-            }
-
-            String renewPass = val.getString("Re-enter new password: ");
-            if (renewPass.equals(newPass)) {
-                user.setPass(newPass);
-                System.out.println("*** Password changed successfully ***\n");
-                passwordChanged = true;
-            } else {
-                System.err.println("Passwords do not match. Please try again.");
-            }
-        }
+        // Set the new password for the user
+        user.setPass(newPass);
+        System.out.println("*** Password changed successfully ***");
     }
+
 }

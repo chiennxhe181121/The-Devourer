@@ -1,5 +1,5 @@
 
-package Model;
+package Controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
