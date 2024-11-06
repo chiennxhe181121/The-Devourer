@@ -26,13 +26,14 @@ public class UserManager {
                 boolean isUnique = false; // Flag to ensure account uniqueness
                 while (!isUnique) {
                     acc = val.getStringRegex("Account: ", "^[a-zA-Z][a-zA-Z0-9._]{2,14}$", "Account must start with a letter and contain only letters, numbers, dots, or underscores, with a length of 3 to 15 characters.");
-                    isUnique = true;
                     for (User user : list) {
                         // Check for existing accounts
                         if (user.getAcc().equals(acc)) {
                             System.err.println("This account already exists, please enter another");
                             isUnique = false; // Set flag to false if account exists
                             break;
+                        } else {
+                            isUnique = true;
                         }
                     }
                 }

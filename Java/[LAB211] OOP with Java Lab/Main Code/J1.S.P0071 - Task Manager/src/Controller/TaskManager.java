@@ -20,48 +20,43 @@ public class TaskManager {
             String assignee = ""; // Declare assignee for later use
             String reviewer = ""; // Declare reviewer for later use
 
-            // Input requirementName and taskType with error checks
+            requirementName = val.getString("Requirement Name: "); // Get the requirement name from user
+            int taskType = val.getInt("Task Type (1: Code, 2: Test, 3: Design, 4: Review): ", 1, 4); // Get task type from user
+
+            // Create TaskType object based on taskType
+            switch (taskType) {
+                case 1:
+                    type = new TaskType(1, "Code");
+                    break;
+                case 2:
+                    type = new TaskType(2, "Test");
+                    break;
+                case 3:
+                    type = new TaskType(3, "Design");
+                    break;
+                case 4:
+                    type = new TaskType(4, "Review");
+                    break;
+            }
+
+            // Check if requirementName contains assignee
             while (true) {
-                requirementName = val.getString("Requirement Name: "); // Get the requirement name from user
-                int taskType = val.getInt("Task Type (1: Code, 2: Test, 3: Design, 4: Review): ", 1, 4); // Get task type from user
-
-                // Create TaskType object based on taskType
-                switch (taskType) {
-                    case 1:
-                        type = new TaskType(1, "Code");
-                        break;
-                    case 2:
-                        type = new TaskType(2, "Test");
-                        break;
-                    case 3:
-                        type = new TaskType(3, "Design");
-                        break;
-                    case 4:
-                        type = new TaskType(4, "Review");
-                        break;
+                assignee = val.getString("Assignee: "); // Get the name of the assignee
+                if (!requirementName.toUpperCase().contains(assignee.toUpperCase())) {
+                    System.err.println("Error: Assignee must contain the Requirement Name (" + requirementName + "). Please enter again."); // Error message
+                } else {
+                    break; // Exit loop if valid
                 }
+            }
 
-                // Check if requirementName contains assignee
-                while (true) {
-                    assignee = val.getString("Assignee: "); // Get the name of the assignee
-                    if (!requirementName.toUpperCase().contains(assignee.toUpperCase())) {
-                        System.err.println("Error: Requirement Name must contain the Assignee (" + assignee + "). Please enter again."); // Error message
-                    } else {
-                        break; // Exit loop if valid
-                    }
+            // Get the reviewer's name and check if it matches the selected taskType
+            while (true) {
+                reviewer = val.getString("Reviewer: "); // Get the reviewer's name
+                if (!reviewer.equalsIgnoreCase(type.getName())) {
+                    System.err.println("Error: Reviewer must match the Task Type (" + type.getName() + "). Please enter again."); // Error message
+                } else {
+                    break; // Exit loop if valid
                 }
-
-                // Get the reviewer's name and check if it matches the selected taskType
-                while (true) {
-                    reviewer = val.getString("Reviewer: "); // Get the reviewer's name
-                    if (!reviewer.equalsIgnoreCase(type.getName())) {
-                        System.err.println("Error: Reviewer must match the Task Type (" + type.getName() + "). Please enter again."); // Error message
-                    } else {
-                        break; // Exit loop if valid
-                    }
-                }
-
-                break; // Exit outer loop if valid
             }
 
             String date = val.getDate("Date: "); // Get the task date from user
@@ -108,28 +103,36 @@ public class TaskManager {
         if (tasks.isEmpty()) {
             System.out.println("*** The task table is empty ***"); // Error message if no tasks are found
         } else {
-            boolean flag = false; // Flag to check if task is found
-            int delId = val.getInt("ID: ", 1, tasks.size()); // Get task ID to delete
+            
+            while (true) {
+                boolean existed = false; // Flag to check if task is found
+                int delId = val.getInt("ID: ", 1, Integer.MAX_VALUE); // Get task ID to delete
 
-            // Loop through tasks to find the specified task
-            for (int i = 0; i < tasks.size(); i++) {
-                if (delId == tasks.get(i).getId()) { // Check if task ID matches
-                    tasks.remove(i); // Remove task from the list
-                    flag = true; // Set flag to true
-                    System.out.println("*** Delete successful ***"); // Success message
-                    break; // Exit loop after deletion
+                // Loop through tasks to find the specified task
+                for (int i = 0; i < tasks.size(); i++) {
+                    if (delId == tasks.get(i).getId()) { // Check if task ID matches
+                        tasks.remove(i); // Remove task from the list
+                        existed = true; // Set flag to true
+                        System.out.println("*** Delete successful ***"); // Success message
+                        break; // Exit loop after deletion
+                    }
                 }
-            }
 
-            if (!flag) {
-                System.out.println("*** Your ID does not exist in the table ***"); // Error if task ID is not found
-            }
+                // Update IDs for remaining tasks
+                for (int j = 0; j < tasks.size(); j++) {
+                    tasks.get(j).setId(j + 1); // Update IDs for remaining tasks
+                }
+                
+                crID = tasks.size() + 1; // Update the current task ID counter
 
-            // Update IDs for remaining tasks
-            for (int j = 0; j < tasks.size(); j++) {
-                tasks.get(j).setId(j + 1); // Update IDs for remaining tasks
+                if (!existed) {
+                    System.out.println("*** Your ID does not exist in the table ***"); // Error if task ID is not found
+                } else {
+                    break;
+                }
+                
             }
-            crID = tasks.size() + 1; // Update the current task ID counter
+            
         }
     }
 }

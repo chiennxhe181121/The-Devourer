@@ -46,33 +46,38 @@ public class ExpenseControl {
     public void deleteAnExpense() {
         System.out.println("--------Delete an expense------");
         while (true) {
-            boolean flag = false; // Flag to check if the expense is found
             if (expenses.isEmpty()) {
                 System.out.println("*** The expense list is empty ***"); // Message when the list is empty
                 break;
             } else {
-                int deleteId = valid.getInt("Enter ID: ", 1, expenses.size()); // Get the ID to delete
-                for (int i = 0; i < expenses.size(); i++) {
-                    // Check if the current expense ID matches the ID to delete
-                    if (expenses.get(i).getId() == deleteId) {
-                        expenses.remove(i); // Remove the expense at index i
-                        flag = true; // Set flag to true as the expense is found and deleted
-                        System.out.println("*** Delete successful ***");
-                        // Update the IDs of subsequent expenses after deletion
-                        for (int j = i; j < expenses.size(); j++) {
-                            expenses.get(j).setId(j + 1); // Set new ID for the remaining expenses
+                while (true) {
+                    boolean flag = false; // Flag to check if the expense is found
+                    int deleteId = valid.getInt("Enter ID: ", 1, expenses.size()); // Get the ID to delete
+                    for (int i = 0; i < expenses.size(); i++) {
+                        // Check if the current expense ID matches the ID to delete
+                        if (expenses.get(i).getId() == deleteId) {
+                            expenses.remove(i); // Remove the expense at index i
+                            flag = true; // Set flag to true as the expense is found and deleted
+                            System.out.println("*** Delete successful ***");
+                            // Update the IDs of subsequent expenses after deletion
+                            for (int j = i; j < expenses.size(); j++) {
+                                expenses.get(j).setId(j + 1); // Set new ID for the remaining expenses
+                            }
+                            crId = expenses.size() + 1; // Update the current ID for new expenses
+                            break; // Exit the loop after deletion
                         }
-                        crId = expenses.size() + 1; // Update the current ID for new expenses
-                        break; // Exit the loop after deletion
                     }
-                }
-                // If no matching ID is found, display a message
-                if (!flag) {
-                    System.out.println("*** Your ID is not exist in table ***");
+                    // If no matching ID is found, display a message
+                    if (!flag) {
+                        System.out.println("*** Your ID is not exist in table ***");
+                    }
+                    else{
+                        break;
+                    }
                 }
             }
             String choice = valid.getYesOrNo("Do you want to delete more (Y/N): ");
-            if(choice.equals("N")){
+            if (choice.equals("N")) {
                 break;
             }
         }

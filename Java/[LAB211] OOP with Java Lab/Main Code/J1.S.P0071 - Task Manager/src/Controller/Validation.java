@@ -21,7 +21,7 @@ public class Validation {
                     System.err.println("Out of range, your number must be [" + min + ", " + max + "]");
                 }
             } catch (NumberFormatException ex) {
-                System.err.println("Wrong format, please input an integer"); // Handle invalid input format
+                System.err.println("Wrong format, please input an integer number"); // Handle invalid input format
             }
         }
     }
