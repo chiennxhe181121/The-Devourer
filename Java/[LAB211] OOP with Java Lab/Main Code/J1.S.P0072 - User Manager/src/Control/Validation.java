@@ -119,16 +119,30 @@ public class Validation {
     // Method to hash a password using MD5
     public String hashPassword(String password) {
         try {
+            // Create a MessageDigest instance with MD5 hashing algorithm
             MessageDigest md = MessageDigest.getInstance("MD5");
+
+            // Update the MessageDigest with the bytes of the password string
             md.update(password.getBytes());
+
+            // Perform the hashing and return a byte array of the hashed value
             byte[] byteData = md.digest();
+
+            // Initialize a StringBuilder to construct the final hashed string
             StringBuilder sb = new StringBuilder();
+
+            // Loop through each byte in the byte array
             for (byte b : byteData) {
-                sb.append(String.format("%02x", b)); // Convert byte to hexadecimal format
+                // Convert each byte to a hexadecimal string (2-digit format) and append it to sb
+                sb.append(String.format("%02x", b));
             }
-            return sb.toString(); // Return the hashed password
+
+            // Return the completed hashed password as a string
+            return sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e); // Handle the case when the hashing algorithm is not found
+            // Handle the case where the MD5 algorithm is not available
+            throw new RuntimeException(e);
         }
     }
+
 }
